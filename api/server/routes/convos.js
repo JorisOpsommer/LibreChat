@@ -65,6 +65,7 @@ router.post('/gen_title', async (req, res) => {
   const titleCache = getLogStores(CacheKeys.GEN_TITLE);
   const key = `${req.user.id}-${conversationId}`;
   let title = await titleCache.get(key);
+  logger.error("/gen_title...", title)
 
   if (!title) {
     // Retry every 1s for up to 20s
@@ -76,6 +77,8 @@ router.post('/gen_title', async (req, res) => {
       }
     }
   }
+  logger.error("/gen_title... title has been foudn?", title)
+
 
   if (title) {
     await titleCache.delete(key);

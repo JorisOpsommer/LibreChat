@@ -703,6 +703,7 @@ class OpenAIClient extends BaseClient {
    */
   async titleConvo({ text, conversationId, responseText = '' }) {
     this.conversationId = conversationId;
+       logger.error('openAIClient - titleconvo')
 
     if (this.options.attachments) {
       delete this.options.attachments;
@@ -729,6 +730,7 @@ class OpenAIClient extends BaseClient {
       frequency_penalty: 0,
       max_tokens: 16,
     };
+    logger.error("modeloptions",modelOptions)
 
     /** @type {TAzureConfig | undefined} */
     const azureConfig = this.options?.req?.app?.locals?.[EModelEndpoint.azureOpenAI];
@@ -796,7 +798,11 @@ ${convo}
         if (this.options.reverseProxyUrl === CohereConstants.API_URL) {
           useChatCompletion = false;
         }
-
+logger.error("sending the payload...", instructionsPayload, {
+  modelOptions,
+  useChatCompletion,
+  context: 'title',
+})
         title = (
           await this.sendPayload(instructionsPayload, {
             modelOptions,
@@ -830,7 +836,7 @@ ${convo}
         context: 'title',
         tokenBuffer: 150,
       });
-
+logger.error("runTitleChain...")
       title = await runTitleChain({ llm, text, convo, signal: this.abortController.signal });
     } catch (e) {
       if (e?.message?.toLowerCase()?.includes('abort')) {
@@ -846,6 +852,7 @@ ${convo}
     }
 
     logger.debug('[OpenAIClient] Convo Title: ' + title);
+    logger.error("'[OpenAIClient] Convo Title: ' + ",title)
     return title;
   }
 

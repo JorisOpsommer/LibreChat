@@ -9,33 +9,20 @@
 # WARNING: YOU CAN ONLY SPECIFY EVERY SERVICE NAME ONCE (api, mongodb, meilisearch, ...)
 # IF YOU WANT TO OVERRIDE MULTIPLE SETTINGS IN ONE SERVICE YOU WILL HAVE TO EDIT ACCORDINGLY
 
-# EXAMPLE: if you want to use the config file and the latest numbered release docker image the result will be:
+ services:
 
-# services:
-#   api:
-#     volumes:
-#     - type: bind
-#       source: ./librechat.yaml
-#       target: /app/librechat.yaml
-#     image: ghcr.io/danny-avila/librechat:latest
+ # USE LIBRECHAT CONFIG FILE
+ # LOCAL BUILD
 
-# ---------------------------------------------------
-
-# services:
-
-# # USE LIBRECHAT CONFIG FILE
-#   api:
-#     volumes:
-#     - type: bind
-#       source: ./librechat.yaml
-#       target: /app/librechat.yaml
-
-# # LOCAL BUILD
-#   api:
-#     image: librechat
-#     build:
-#       context: .
-#       target: node
+   api:
+     image: librechat
+     build:
+       context: .
+       target: node
+     volumes:
+     - type: bind
+       source: ./librechat.yaml
+       target: /app/librechat.yaml
 
 # # BUILD FROM LATEST IMAGE
 #   api:
